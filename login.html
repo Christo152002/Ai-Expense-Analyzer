@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>AI Expense Analyzer - Login</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#070a1f;
+  --panel:#0e1230;
+  --glass:rgba(255,255,255,0.05);
+  --border:rgba(255,255,255,0.08);
+
+  --primary:#6c5cff;
+  --primary2:#00d4ff;
+
+  --text:#ffffff;
+  --muted:#9aa4c7;
+
+  --accent-gradient:linear-gradient(135deg,#6c5cff,#00d4ff);
+}
+.error-shake{
+  animation:shake 0.4s;
+}
+
+@keyframes shake{
+
+  0%,100%{ transform:translateX(0); }
+
+  25%{ transform:translateX(-8px); }
+
+  75%{ transform:translateX(8px); }
+
+}
+.fade-out{
+  opacity:0;
+  transform:scale(1.02);
+  transition:all 0.4s ease;
+}
+/* REGISTER BUTTON */
+.register-btn{
+  margin-top:12px;
+
+  background:transparent;
+
+  border:1px solid var(--primary2);
+
+  color:var(--primary2);
+
+  transition:.25s;
+}
+
+.register-btn:hover{
+
+  background:var(--accent-gradient);
+
+  color:white;
+
+  border-color:transparent;
+
+  box-shadow:
+  0 0 20px rgba(0,212,255,0.5);
+}
+/* PAGE BACKGROUND — SAME AS DASHBOARD */
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%, #1a1f5c 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, #0b4b6f 0%, transparent 40%),
+    var(--bg);
+  color:var(--text);
+}
+.password-box{
+  position:relative;
+}
+
+.toggle-eye{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+
+  color:#00d4ff;   /* force visible color */
+  font-size:18px;
+
+  z-index:10;
+
+  opacity:0.8;
+  transition:0.2s;
+}
+
+.toggle-eye:hover{
+  opacity:1;
+  color:#6c5cff;
+}
+
+.spinner{
+  display:none;
+  width:18px;
+  height:18px;
+  border:2px solid rgba(255,255,255,0.3);
+  border-top:2px solid white;
+  border-radius:50%;
+  animation:spin .6s linear infinite;
+  margin:auto;
+}
+
+@keyframes spin{
+  to{ transform:rotate(360deg); }
+}
+
+.login-card{
+  animation:floatCard 4s ease-in-out infinite;
+}
+
+@keyframes floatCard{
+  0%,100%{ transform:translateY(0px); }
+  50%{ transform:translateY(-10px); }
+}
+
+.main-box{
+  animation:glowPulse 4s infinite alternate;
+}
+
+@keyframes glowPulse{
+  0%{
+    box-shadow:
+      0 0 40px rgba(108,92,255,0.2),
+      0 0 80px rgba(0,212,255,0.05);
+  }
+  100%{
+    box-shadow:
+      0 0 60px rgba(108,92,255,0.4),
+      0 0 120px rgba(0,212,255,0.15);
+  }
+}
+#particles{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  pointer-events:none;
+}
+/* CENTER CONTAINER */
+.page-bg{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.login-card:hover{
+
+  transform:translateY(-6px) scale(1.02);
+
+  box-shadow:
+  0 0 35px rgba(108,92,255,0.35),
+  0 0 60px rgba(0,212,255,0.15);
+
+  border:1px solid rgba(108,92,255,0.4);
+}
+.main-box:hover{
+
+  transform:scale(1.01);
+
+  box-shadow:
+  0 0 60px rgba(108,92,255,0.25),
+  0 0 120px rgba(0,212,255,0.1);
+
+  border:1px solid rgba(108,92,255,0.3);
+}
+/* MAIN GLASS PANEL */
+.main-box{
+  width:1000px;
+  height:520px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:40px;
+
+  background:var(--glass);
+  border:1px solid var(--border);
+
+  border-radius:24px;
+
+  backdrop-filter:blur(25px);
+
+  box-shadow:
+  0 0 40px rgba(0,0,0,0.6),
+  inset 0 0 30px rgba(255,255,255,0.03);
+}
+
+/* LEFT SIDE */
+.left-box{
+  flex:1;
+  padding:40px;
+}
+
+.left-box h1{
+  font-size:42px;
+  margin-bottom:10px;
+
+  background:var(--accent-gradient);
+
+  -webkit-background-clip:text;
+  background-clip:text; /* ← add this line */
+
+  -webkit-text-fill-color:transparent;
+  color:transparent; /* ← also recommended */
+}
+.left-box p{
+  color:var(--muted);
+  font-size:18px;
+}
+.app-title{
+  position:fixed;
+  top:20px;
+  right:30px;
+
+  font-size:16px;
+  font-weight:600;
+
+  background:linear-gradient(135deg,#6c5cff,#00d4ff);
+
+  /* standard version */
+  background-clip:text;
+
+  /* chrome / edge / safari */
+  -webkit-background-clip:text;
+
+  /* required for transparency */
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+
+  opacity:0.9;
+  letter-spacing:0.5px;
+
+  animation:titleFade 1s ease;
+}
+@keyframes titleFade{
+  from{
+    opacity:0;
+    transform:translateY(-10px);
+  }
+  to{
+    opacity:0.9;
+    transform:translateY(0);
+  }
+}
+.app-title:hover{
+  text-shadow:
+    0 0 10px rgba(0,212,255,0.6),
+    0 0 20px rgba(108,92,255,0.4);
+}
+/* LOGIN CARD */
+.login-card{
+  width:360px;
+
+  padding:35px;
+
+  border-radius:20px;
+
+  background:rgba(255,255,255,0.03);
+
+  border:1px solid var(--border);
+
+  backdrop-filter:blur(20px);
+
+  box-shadow:
+  0 0 20px rgba(108,92,255,0.15);
+
+  animation:fadeSlide .6s ease;
+}
+
+@keyframes fadeSlide{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.login-card h2{
+  margin-bottom:20px;
+}
+
+/* INPUT */
+input{
+  width:100%;
+  padding:12px;
+
+  margin-bottom:16px;
+
+  border-radius:12px;
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,0.04);
+
+  color:white;
+
+  outline:none;
+}
+
+input:focus{
+  border:1px solid var(--primary);
+  box-shadow:0 0 10px rgba(108,92,255,0.4);
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:12px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:var(--accent-gradient);
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:.25s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+  0 0 20px rgba(108,92,255,0.6);
+}
+
+/* REGISTER LINK */
+#registerBtn{
+  display:inline-block;
+  margin-top:14px;
+  color:var(--primary2);
+  text-decoration:none;
+}
+
+#registerBtn:hover{
+  text-decoration:underline;
+}
+</style>
+</head>
+
+<body>
+  <div class="app-title">
+  AI Expense Analyzer
+</div>
+  <canvas id="particles"></canvas>
+<div class="page-bg">
+  <div class="main-box">
+    <div class="left-box">
+      <h1 id="greetingText">Welcome!</h1>
+      <p>Login to Analyze your Expenses.</p>
+    </div>
+
+    <div class="login-card">
+      <h2>Sign in</h2>
+<form id="loginForm">
+  <input id="mobile" type="text" placeholder="Mobile number" />
+<div class="password-box">
+  <input id="password" type="password" placeholder="Password" />
+  <span class="toggle-eye" onclick="togglePassword()">👁</span>
+</div>
+<button type="submit" id="loginBtn">
+  <span id="btnText">Login</span>
+  <span id="spinner" class="spinner"></span>
+</button>
+</form>
+<button type="button" id="registerBtn" class="register-btn">
+  Create Account
+</button>
+    </div>
+  </div>
+</div>
+<script>
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+const particleCount = 80;
+
+class Particle{
+
+  constructor(){
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+
+    this.size = Math.random() * 2 + 1;
+
+    this.speedX = (Math.random() - 0.5) * 0.5;
+    this.speedY = (Math.random() - 0.5) * 0.5;
+
+    this.opacity = Math.random();
+  }
+
+  update(){
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+    ctx.fillStyle = "rgba(0,212,255," + this.opacity + ")";
+    ctx.fill();
+  }
+
+}
+
+function initParticles(){
+
+  particles = [];
+
+  for(let i=0;i<particleCount;i++){
+    particles.push(new Particle());
+  }
+
+}
+
+function animateParticles(){
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach(p=>{
+    p.update();
+    p.draw();
+  });
+
+  requestAnimationFrame(animateParticles);
+
+}
+
+initParticles();
+animateParticles();
+
+window.addEventListener("resize",()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  initParticles();
+});
+
+</script>
+<script>
+function updateGreeting(){
+
+  const hour = new Date().getHours();
+
+  let greeting = "Welcome";
+
+  if(hour < 12) greeting = "Good Morning";
+  else if(hour < 17) greeting = "Good Afternoon";
+  else greeting = "Good Evening";
+  document.getElementById("greetingText").textContent =
+    `${greeting}, ${name}`;
+}
+
+updateGreeting();
+</script>
+<script src="/js/login.js"></script>
+</body>
+</html>

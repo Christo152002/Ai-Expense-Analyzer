@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Expense AI — Settings</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#070a1f;
+  --panel:#0e1230;
+  --glass:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.12);
+  --text:#ffffff;
+  --muted:#9ca3af;
+  --accent:#8b5cf6;
+  --accent-2:#6366f1;
+  --glow:0 20px 50px rgba(139,92,246,.35);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(139,92,246,.25),transparent 40%),
+    radial-gradient(circle at 80% 0%,rgba(99,102,241,.2),transparent 40%),
+    var(--bg);
+  color:var(--text);
+}
+.strength-bar{
+  height:6px;
+  background:rgba(255,255,255,.1);
+  border-radius:6px;
+  margin-top:6px;
+  overflow:hidden;
+}
+
+.strength-text{
+  font-size:12px;
+  margin-top:4px;
+  color:#9ca3af;
+}
+/* LAYOUT */
+
+.dashboard{
+  display:grid;
+  grid-template-columns:260px 1fr;
+  height:100vh;
+}
+.menu-item{
+padding:14px;
+border-radius:12px;
+cursor:pointer;
+margin-bottom:8px;
+background:rgba(255,255,255,.03);
+}
+
+.menu-item:hover{
+background:rgba(139,92,246,.2);
+}
+
+.menu-item.active{
+background:rgba(139,92,246,.3);
+}
+
+.section{
+display:block;
+}
+
+.hidden{
+display:none;
+}
+
+.danger{
+background:rgba(239,68,68,.2);
+color:#fecaca;
+}
+.card{
+  backdrop-filter: blur(12px);
+}
+/* ===== DATA SECTION REDESIGN ===== */
+
+.data-grid{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  margin-top:20px;
+}
+
+.data-card{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 20px;
+  border-radius:18px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  backdrop-filter:blur(12px);
+  transition:.3s;
+}
+
+.data-card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--glow);
+}
+
+.data-info h4{
+  margin:0;
+  font-size:16px;
+  font-weight:600;
+}
+
+.data-info p{
+  margin:6px 0 0;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.btn-danger{
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+  color:white;
+  border:none;
+}
+
+.danger-zone{
+  border:1px solid rgba(239,68,68,.4);
+  background:rgba(239,68,68,.08);
+}
+/* ===== MODERN VIEW PROFILE ===== */
+
+.profile-view-modern{
+  display:grid;
+  grid-template-columns: 220px 1fr;
+  gap:50px;
+  align-items:center;
+  margin-top:30px;
+}
+
+.profile-view-left{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:16px;
+  text-align:center;
+  padding-top:10px;
+}
+
+.profile-view-avatar{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--accent);
+  box-shadow:var(--glow);
+  margin-bottom:8px;
+}
+.profile-view-avatar{
+  display:block;
+  margin:0 auto;
+}
+.profile-view-name{
+  font-size:20px;
+  font-weight:600;
+}
+
+.profile-view-email{
+  font-size:14px;
+  color:var(--muted);
+}
+
+.profile-view-right{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.info-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+  backdrop-filter:blur(10px);
+}
+
+.info-card span{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  color:var(--muted);
+}
+
+.info-card div{
+  margin-top:6px;
+  font-size:15px;
+  font-weight:500;
+}
+
+.full-width{
+  grid-column:1 / -1;
+}
+/* EDIT PROFILE MODERN UI */
+/* ===== MODERN PROFILE REDESIGN ===== */
+
+.section-title{
+  margin-bottom:18px;
+  font-size:22px;
+  font-weight:600;
+}
+
+.profile-modern{
+  width:100%;
+  max-width:900px;
+  margin:0;              /* remove auto centering */
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+.profile-avatar-block{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+
+.modern-avatar{
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--accent);
+  box-shadow:var(--glow);
+}
+
+.modern-upload{
+  padding:8px 18px;
+}
+
+.profile-form-modern{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+.profile-avatar-block{
+  align-items:flex-start;
+}
+.profile-form-modern .form-group label{
+  font-size:12px;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.profile-form-modern .form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.modern-save{
+  align-self:flex-end;
+  margin-top:10px;
+}
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.form-group label{
+  font-size:12px;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+.readonly{
+  opacity:.6;
+  cursor:not-allowed;
+  background:rgba(255,255,255,.05);
+}
+.edit-form .input{
+  margin-top:4px;
+}
+/* REMOVE SCROLL */
+/* ENABLE PROPER SCROLL */
+
+body{
+  overflow:hidden; /* keeps sidebar fixed */
+}
+
+.main{
+  height:100vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:8px;
+  scroll-behavior:smooth;
+}
+.main::-webkit-scrollbar{
+  width:8px;
+}
+
+.main::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+.main::-webkit-scrollbar-thumb{
+  background:rgba(139,92,246,.5);
+  border-radius:10px;
+}
+
+.main::-webkit-scrollbar-thumb:hover{
+  background:rgba(139,92,246,.8);
+}
+.password-wrapper{
+  position:relative;
+  margin-top:10px;
+}
+
+.password-wrapper .input{
+  padding-right:45px;
+}
+
+.toggle-password{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  font-size:14px;
+  opacity:.6;
+  transition:.2s;
+}
+
+.toggle-password:hover{
+  opacity:1;
+}
+/* SIDEBAR */
+
+.sidebar{
+  background:linear-gradient(180deg,#0b0f2d,#05081e);
+  padding:28px 22px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  border-right:1px solid var(--border);
+}
+
+.brand{
+  display:flex;
+  flex-direction:column;
+}
+
+.welcome-text{
+  font-size:14px;
+  color:#9ca3af;
+}
+
+.welcome-name{
+  font-size:18px;
+  font-weight:600;
+}
+
+.nav a{
+  display:flex;
+  padding:14px 18px;
+  border-radius:14px;
+  color:var(--muted);
+  text-decoration:none;
+}
+
+.nav a.active,
+.nav a:hover{
+  color:#fff;
+  background:linear-gradient(135deg,rgba(139,92,246,.25),rgba(99,102,241,.2));
+  box-shadow:var(--glow);
+}
+
+.logout{
+  margin-top:auto;
+  padding:14px;
+  border-radius:14px;
+  background:rgba(239,68,68,.15);
+  color:#fecaca;
+  border:none;
+  cursor:pointer;
+}
+.top-profile {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  z-index: 999;
+}
+
+.top-profile img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  object-fit: cover;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:24px;
+}
+
+.topbar h1{
+  font-size:26px;
+  font-weight:600;
+}
+.profile-buttons{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:10px;
+}
+
+.profile-buttons .btn{
+
+  white-space:nowrap;
+
+}
+
+.profile-status{
+
+  margin-top:10px;
+
+  font-size:13px;
+
+  color:#9ca3af;
+
+}
+.security-buttons{
+
+  display:flex;
+
+  gap:12px;
+
+  margin-top:16px;
+
+  align-items:center;
+
+}
+
+.security-buttons .btn{
+
+  white-space:nowrap;
+
+}
+.security-buttons{
+  display:flex;
+  justify-content:space-between;
+  margin-top:16px;
+}
+
+/* GRID */
+
+.settings-grid{
+  display:grid;
+  grid-template-columns: 280px 1fr;
+  gap:32px;
+  align-items:start;
+}
+
+/* CARD */
+
+.card{
+  background:linear-gradient(
+  180deg,
+  rgba(255,255,255,.08),
+  rgba(255,255,255,.02)
+  );
+
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:24px;
+  transition:.3s;
+}
+
+.card:hover{
+  box-shadow:var(--glow);
+}
+
+/* ACCOUNT */
+
+.account-header{
+  display:flex;
+  gap:18px;
+  align-items:center;
+}
+
+.avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  border:3px solid var(--accent);
+}
+
+.account-name{
+  font-size:20px;
+  font-weight:600;
+}
+
+.account-email{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.account-actions{
+  margin-top:18px;
+  display:flex;
+  gap:12px;
+}
+
+/* SETTINGS ROW */
+
+.setting-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:14px;
+}
+
+.setting-title{
+  font-weight:500;
+}
+
+.setting-sub{
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* BUTTON */
+
+.btn{
+  padding:10px 18px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:white;
+}
+
+.btn-secondary{
+  background:rgba(139,92,246,.15);
+  border:1px solid var(--border);
+  color:white;
+}
+
+/* INPUT */
+
+.input{
+  width:100%;
+  margin-top:10px;
+  padding:12px;
+  background:rgba(0,0,0,.4);
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<div class="brand">
+<div class="welcome-text">Welcome</div>
+<div class="welcome-name" id="sidebarUserName">User !</div>
+</div>
+
+<nav class="nav">
+<a href="dashboard.html">Dashboard</a>
+<a href="calculator.html">Calculator</a>
+<a href="financial-assistant.html">Assistant</a>
+<a href="goal.html">Goals</a>
+<a href="notes.html">Notes</a>
+<a href="settings.html" class="active">Settings</a>
+</nav>
+
+<button class="logout" id="logoutBtn">
+Logout
+</button>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+<div class="top-profile">
+
+<img id="topProfilePic"
+src="/assets/default-avatar.png">
+
+<div style="font-size:14px;color:white;">
+AI Expense Analyzer
+</div>
+
+</div>
+
+<div class="topbar">
+
+<h1>Settings</h1>
+
+</div>
+
+<div class="settings-grid">
+
+<!-- LEFT MENU -->
+<div class="card">
+
+<div class="menu-item active" onclick="showSection('viewProfile')">
+View Profile
+</div>
+
+<div class="menu-item" onclick="showSection('profile')">
+Edit Profile
+</div>
+
+
+<div class="menu-item" onclick="showSection('security')">
+Security
+</div>
+
+<div class="menu-item" onclick="showSection('preferences')">
+Preferences
+</div>
+
+<div class="menu-item" onclick="showSection('data')">
+Data
+</div>
+
+</div>
+
+
+<!-- RIGHT PANEL -->
+<div class="card">
+  <div id="viewProfileSection" class="section">
+
+    <h3 class="section-title">Profile Overview</h3>
+
+    <div class="profile-view-modern">
+
+      <!-- LEFT SIDE -->
+      <div class="profile-view-left">
+
+        <img id="profilePicPreview"
+             src="/assets/avatar.png"
+             class="profile-view-avatar">
+
+        <div id="profileName" class="profile-view-name">
+          User
+        </div>
+
+        <div id="profileEmail" class="profile-view-email">
+          email@example.com
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div class="profile-view-right">
+
+        <div class="info-card">
+          <span>Currency</span>
+          <div id="profileCurrency">₹ INR</div>
+        </div>
+
+        <div class="info-card">
+          <span>Region</span>
+          <div id="profileRegion">India</div>
+        </div>
+
+        <div class="info-card">
+          <span>Member Since</span>
+          <div id="profileMemberSince">—</div>
+        </div>
+
+        <div class="info-card">
+          <span>Last Login</span>
+          <div id="profileLastLogin">—</div>
+        </div>
+
+        <div class="info-card full-width">
+          <span>Account ID</span>
+          <div id="profileAccountId">—</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+<!-- PROFILE -->
+<div id="profileSection" class="section hidden">
+
+<h3 class="section-title">Edit Profile</h3>
+
+<div class="profile-modern">
+
+  <!-- Avatar -->
+  <div class="profile-avatar-block">
+
+<img id="editProfilePicPreview"
+     src="/assets/avatar.png"
+     class="modern-avatar">
+
+    <label class="btn btn-secondary modern-upload">
+      Change Photo
+      <input type="file"
+             id="profilePic"
+             hidden
+             accept="image/*">
+    </label>
+
+  </div>
+
+  <!-- Form -->
+  <div class="profile-form-modern">
+
+    <div class="form-group">
+      <label>Username</label>
+      <input id="usernameInput"
+             class="input"
+             placeholder="Enter username">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input id="emailInput"
+             class="input"
+             placeholder="Enter email">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Currency</label>
+        <select id="currencyInput" class="input">
+          <option value="INR">₹ INR</option>
+          <option value="USD">$ USD</option>
+          <option value="EUR">€ EUR</option>
+          <option value="GBP">£ GBP</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Region</label>
+        <select id="timezoneInput" class="input">
+          <option value="Asia/Kolkata">India</option>
+          <option value="America/New_York">USA</option>
+          <option value="Europe/London">United Kingdom</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Account ID</label>
+        <input id="accountIdInput"
+               class="input readonly"
+               readonly>
+      </div>
+
+      <div class="form-group">
+        <label>Member Since</label>
+        <input id="memberSinceInput"
+               class="input readonly"
+               readonly>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Last Login</label>
+      <input id="lastLoginInput"
+             class="input readonly"
+             readonly>
+    </div>
+
+    <button id="saveProfileBtn"
+            class="btn btn-primary modern-save">
+      Save Changes
+    </button>
+
+    <div id="profileSaveStatus"
+         class="profile-status"></div>
+
+  </div>
+
+</div>
+
+</div>
+<!-- SECURITY -->
+<div id="securitySection" class="section hidden">
+
+<h3>Security</h3>
+<div class="password-wrapper">
+  <input id="oldPassword"
+         class="input"
+         placeholder="Current password"
+         type="password">
+  <span class="toggle-password"
+        data-target="oldPassword">👁</span>
+</div>
+
+<div class="password-wrapper">
+  <input id="newPassword"
+         class="input"
+         placeholder="New password"
+         type="password">
+  <span class="toggle-password"
+        data-target="newPassword">👁</span>
+</div>
+
+<div class="strength-bar">
+  <div id="settingsStrengthFill"></div>
+</div>
+<div id="settingsStrengthText"
+     class="strength-text"></div>
+
+<div class="password-wrapper">
+  <input id="confirmPassword"
+         class="input"
+         placeholder="Confirm password"
+         type="password">
+  <span class="toggle-password"
+        data-target="confirmPassword">👁</span>
+</div>
+
+<div class="security-buttons">
+
+  <button id="changePasswordBtn"
+          class="btn btn-primary">
+    Change Password
+  </button>
+
+  <button id="logoutAllBtn"
+          class="btn btn-secondary">
+    Logout All Devices
+  </button>
+
+</div>
+
+<div id="securityStatus"
+     class="profile-status"></div>
+
+</div>
+
+<!-- PREFERENCES -->
+<div id="preferencesSection" class="section hidden">
+
+<h3>Preferences</h3>
+
+<select id="themeInput" class="input">
+<option value="dark">Dark</option>
+<option value="light">Light</option>
+</select>
+
+<select id="notificationInput" class="input">
+<option value="on">Notifications ON</option>
+<option value="off">Notifications OFF</option>
+</select>
+
+</div>
+
+
+<!-- DATA -->
+<div id="dataSection" class="section hidden">
+
+  <h3 class="section-title">Data Management</h3>
+
+  <div class="data-grid">
+
+    <!-- EXPORT -->
+    <div class="data-card">
+      <div class="data-info">
+        <h4>Export Your Data</h4>
+        <p>Download a copy of your profile, expenses and notes.</p>
+      </div>
+      <button id="exportDataBtn" class="btn btn-primary">
+        Export Data
+      </button>
+    </div>
+
+    <!-- CLEAR EXPENSES -->
+    <div class="data-card">
+      <div class="data-info">
+        <h4>Clear Expenses</h4>
+        <p>Permanently remove all recorded expenses.</p>
+      </div>
+      <button id="clearExpensesBtn" class="btn btn-secondary">
+        Clear Expenses
+      </button>
+    </div>
+
+    <!-- CLEAR NOTES -->
+    <div class="data-card">
+      <div class="data-info">
+        <h4>Clear Notes</h4>
+        <p>Delete all personal notes from your account.</p>
+      </div>
+      <button id="clearNotesBtn" class="btn btn-secondary">
+        Clear Notes
+      </button>
+    </div>
+
+    <!-- DELETE ACCOUNT -->
+    <div class="data-card danger-zone">
+      <div class="data-info">
+        <h4>Delete Account</h4>
+        <p>This action is irreversible. All data will be permanently deleted.</p>
+      </div>
+      <button id="deleteAccountBtn" class="btn btn-danger">
+        Delete Account
+      </button>
+    </div>
+
+  </div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+<script src="/js/settings.js"></script>
+
+<script>
+
+document.getElementById("logoutBtn").onclick=async()=>{
+await fetch("/api/logout",{method:"POST",credentials:"include"});
+location.href="/login.html";
+};
+
+</script>
+
+</body>
+</html>

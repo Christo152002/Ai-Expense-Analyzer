@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Register - AI Expense Analyzer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:Poppins,sans-serif;
+  background:#070a1f;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.card{
+  width:400px;
+  padding:30px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(20px);
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:none;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#6c5cff,#00d4ff);
+  color:white;
+  cursor:pointer;
+}
+.password-wrapper{
+  margin-bottom:15px;
+}
+
+.strength-bar{
+  height:6px;
+  background:rgba(255,255,255,.1);
+  border-radius:6px;
+  margin-top:6px;
+  overflow:hidden;
+}
+
+#strengthFill{
+  height:100%;
+  width:0%;
+  transition:.3s;
+}
+
+.strength-text{
+  font-size:12px;
+  margin-top:4px;
+  color:#9ca3af;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Create Account</h2>
+
+<form id="registerForm">
+
+<input id="name" placeholder="Name" required>
+<input id="mobile" placeholder="Mobile" required>
+<div class="password-wrapper">
+  <input id="password" type="password" placeholder="Password" required>
+  <div class="strength-bar">
+    <div id="strengthFill"></div>
+  </div>
+  <div id="strengthText" class="strength-text"></div>
+</div>
+
+<button type="submit">Register</button>
+
+</form>
+
+</div>
+
+<script>
+document.getElementById("registerForm").onsubmit = async (e)=>{
+
+e.preventDefault();
+
+const name = document.getElementById("name").value.trim();
+const mobile = document.getElementById("mobile").value.trim();
+const password = document.getElementById("password").value.trim();
+
+const res = await fetch("/api/register",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({name,mobile,password})
+});
+
+const data = await res.json();
+
+if(res.ok){
+
+alert("Registered successfully");
+
+window.location.href="/login.html";
+
+}else{
+
+alert(data.error);
+
+}
+
+};
+const passwordInput = document.getElementById("password");
+const strengthFill = document.getElementById("strengthFill");
+const strengthText = document.getElementById("strengthText");
+
+passwordInput.addEventListener("input", ()=>{
+
+  const password = passwordInput.value;
+  const score = calculateStrength(password);
+
+  updateStrengthUI(score);
+
+});
+
+function calculateStrength(password){
+
+  let score = 0;
+
+  if(password.length >= 8) score++;
+  if(/[A-Z]/.test(password)) score++;
+  if(/[a-z]/.test(password)) score++;
+  if(/[0-9]/.test(password)) score++;
+  if(/[^A-Za-z0-9]/.test(password)) score++;
+
+  return score;
+}
+
+function updateStrengthUI(score){
+
+  const colors = ["#ef4444","#f97316","#eab308","#22c55e","#16a34a"];
+  const labels = ["Very Weak","Weak","Medium","Strong","Very Strong"];
+
+  if(score === 0){
+    strengthFill.style.width = "0%";
+    strengthText.textContent = "";
+    return;
+  }
+
+  strengthFill.style.width = (score * 20) + "%";
+  strengthFill.style.background = colors[score-1];
+  strengthText.textContent = labels[score-1];
+}
+</script>
+
+</body>
+</html>

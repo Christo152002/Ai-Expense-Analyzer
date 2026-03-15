@@ -1,0 +1,9 @@
+{
+  "dev": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "expense_analyzer",
+    "user": "postgres",
+    "password": "YOUR_POSTGRES_PASSWORD"
+  }
+}
